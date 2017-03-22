@@ -3,7 +3,7 @@ import quantities as pq
 from hbp_validation_framework.versioning import Versioned
 
 class testCell(sciunit.Model, ProvidesLayerInfo, Versioned):
-    id = "#####"
+    id = "9ade6831-a758-42be-a50e-d5cb65859c34"
 
     def __init__(self, name="testCell", layer_info=[]):
         self.layer_info = layer_info
