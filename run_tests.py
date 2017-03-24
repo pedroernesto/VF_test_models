@@ -1,7 +1,7 @@
 """
-Main script for running vaidation tests of hippocampus CA1 pyramidal neuron models
+Main script for running vaidation tests of testCell
 
-Author: Andrew P. Davison, CNRS
+Author: Andrew P. Davison and Shailesh Appukuttan, CNRS
 Date: February 2017
 """
 

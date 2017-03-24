@@ -3,14 +3,14 @@ import quantities as pq
 from neuronunit.capabilities import ProvidesLayerInfo
 from hbp_validation_framework.versioning import Versioned
 
-class testCell(sciunit.Model, ProvidesLayerInfo, Versioned):
+class testColumn(sciunit.Model, ProvidesLayerInfo, Versioned):
     id = "9ade6831-a758-42be-a50e-d5cb65859c34"
 
     def __init__(self, name="testCell", layer_info={}):
         self.layer_info = layer_info
         sciunit.Model.__init__(self, name=name)
         self.name = name
-        self.description = "Dummy cell for testing layer heights"
+        self.description = "Dummy model for testing layer heights"
         self.set_layer_info_default()
 
     def set_layer_info(self, layer_info):
