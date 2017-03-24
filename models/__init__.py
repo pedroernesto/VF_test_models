@@ -17,11 +17,11 @@ class testCell(sciunit.Model, ProvidesLayerInfo, Versioned):
         self.layer_info = layer_info
 
     def set_layer_info_default(self):
-        self.layer_info = { "layer_I": {'height': {'value':'150 um'}},
-                            "layer_II-III": {'height': {'value':'300 um'}},
-                            "layer_IV": {'height': {'value':'250 um'}},
-                            "layer_V": {'height': {'value':'425 um'}},
-                            "layer_VI": {'height': {'value':'675 um'}} }
+        self.layer_info = { "Layer 1": {'height': {'value':'150 um'}},
+                            "Layer 2/3": {'height': {'value':'300 um'}},
+                            "Layer 4": {'height': {'value':'250 um'}},
+                            "Layer 5": {'height': {'value':'425 um'}},
+                            "Layer 6": {'height': {'value':'675 um'}} }
 
     def get_layer_info(self):
         return self.layer_info
