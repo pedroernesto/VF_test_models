@@ -1,12 +1,13 @@
 import sciunit
 import quantities as pq
-from neuronunit.capabilities import ProvidesLayerInfo
+#from neuronunit.capabilities import ProvidesLayerInfo
 from hbp_validation_framework.versioning import Versioned
 
-class testColumn(sciunit.Model, ProvidesLayerInfo, Versioned):
+#class testColumn(sciunit.Model, ProvidesLayerInfo, Versioned):
+class testColumn(sciunit.Model, Versioned):
     id = "9ade6831-a758-42be-a50e-d5cb65859c34"
 
-    def __init__(self, name="testCell", layer_info={}):
+    def __init__(self, name="testColumn", layer_info={}):
         self.layer_info = layer_info
         sciunit.Model.__init__(self, name=name)
         self.name = name

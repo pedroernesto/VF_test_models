@@ -22,6 +22,7 @@ config = parser.parse_args()
 model = getattr(models, config.model)()
 print "----------------------------------------------"
 print "Model name: ", model
+print "Model name: ", type(model)
 print "----------------------------------------------"
 
 # Load the test
@@ -33,6 +34,7 @@ test_library = ValidationTestLibrary(username="shailesh") # default url for HBP 
 test = test_library.get_validation_test(config.test)
 print "----------------------------------------------"
 print "Test name: ", test
+print "Test name: ", type(test)
 print "----------------------------------------------"
 
 # Run the test
