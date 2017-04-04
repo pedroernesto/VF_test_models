@@ -39,9 +39,13 @@ print "----------------------------------------------"
 
 # Run the test
 score = test.judge(model, deep_error=True)
-print "-----------------------"
+print "----------------------------------------------"
 print "Score: ", score
-print "-----------------------"
+if "figures" in score.related_data:
+    print "Output files: "
+    for item in score.related_data["figures"]:
+        print item
+print "----------------------------------------------"
 
 # Register the result with the HBP Validation service
 # This could be integrated into test.judge() if we extend sciunit appropriately
@@ -49,5 +53,5 @@ collab_folder = "{}_{}".format(config.model, datetime.now().strftime("%Y%m%d-%H%
 collab_storage = CollabDataStore(username="shailesh",
                                  collab_id="1771",
                                  base_folder=collab_folder)
-#test_library.register(score, collab_storage)  # score already linked to test and model (I think)
-test_library.register(score)
+#test_library.register(score)
+test_library.register(score, collab_storage)
