@@ -36,7 +36,6 @@ class testColumn(sciunit.Model, Versioned):
 #class hippoCircuit(sciunit.Model, cap.ProvidesDensityInfo, Versioned):
 class hippoCircuit(sciunit.Model, Versioned):
         id = "f25d05b2-2358-418b-8914-fe02a412ac74"
-        version = "Jupyter_Notebook"
 
         def __init__(self, name="hippoCircuit", density_info={}):
             self.density_info = density_info
