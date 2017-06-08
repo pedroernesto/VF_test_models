@@ -2,6 +2,9 @@ import sciunit
 import quantities as pq
 #from neuronunit.capabilities import ProvidesLayerInfo
 from hbp_validation_framework.versioning import Versioned
+#import morphounit.capabilities as cap
+
+#==============================================================================
 
 #class testColumn(sciunit.Model, ProvidesLayerInfo, Versioned):
 class testColumn(sciunit.Model, Versioned):
@@ -27,3 +30,25 @@ class testColumn(sciunit.Model, Versioned):
 
     def get_layer_info(self):
         return self.layer_info
+
+#==============================================================================
+
+#class hippoCircuit(sciunit.Model, cap.ProvidesDensityInfo, Versioned):
+class hippoCircuit(sciunit.Model, Versioned):
+        id = "f25d05b2-2358-418b-8914-fe02a412ac74"
+        version = "Jupyter_Notebook"
+
+        def __init__(self, name="hippoCircuit", density_info={}):
+            self.density_info = density_info
+            sciunit.Model.__init__(self, name=name)
+            self.name = name
+            self.description = "Dummy model for testing cell densities"
+            self.set_density_info_default()
+
+        def set_density_info_default(self):
+            self.density_info = { "density" : {"value" : "200 1/mm**3"}}
+
+        def get_density_info(self):
+            return self.density_info
+
+#==============================================================================
