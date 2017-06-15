@@ -45,7 +45,7 @@ class hippoCircuit(sciunit.Model, Versioned):
             self.set_density_info_default()
 
         def set_density_info_default(self):
-            self.density_info = { "density" : {"value" : "200 1/mm**3"}}
+            self.density_info = { "density" : {"value" : "200 1000/mm3"}}
 
         def get_density_info(self):
             return self.density_info
