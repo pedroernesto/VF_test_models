@@ -51,3 +51,28 @@ class hippoCircuit(sciunit.Model, Versioned):
             return self.density_info
 
 #==============================================================================
+
+#class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
+class neuroM_loader(sciunit.Model, Versioned):
+        id = "3957bc1c-4a22-40ca-9ad6-879f75403219"
+
+        def __init__(self, name="neuroM_loader", soma_diameter={}):
+            self.soma_diameter = soma_diameter
+            sciunit.Model.__init__(self, name=name)
+            self.name = name
+            self.description = "Model for loading morphologies via NeuroM"
+            self.set_soma_diameter_info()
+
+        def set_soma_diameter_info(self):
+            import neurom as nm
+            # remove hardcoding
+            morph_path = '/home/shailesh/Work/NeuroM/1-1-DE-rep-ax-cor.swc'
+            nrn = nm.load_neuron(morph_path)
+            soma_radius = nm.get('soma_radii', nrn, neurite_type=nm.SOMA)
+            value = str(soma_radius[0]*2) + " um"
+            self.soma_diameter = { "diameter" : {"value" : value}}
+
+        def get_soma_diameter_info(self):
+            return self.soma_diameter
+
+#==============================================================================
