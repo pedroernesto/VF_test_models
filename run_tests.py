@@ -16,13 +16,20 @@ parser.add_argument("model",
                     help="name of the model to test, e.g. Bianchi, Golding, KaliFreund or Migliore"),
 parser.add_argument("test",
                     help="test configuration file (local path or URL)")
+parser.add_argument("model_path", nargs='?',
+                    help="currently used to load morphologies. Specifies path to morphology file. ")
 config = parser.parse_args()
 
 # Load the model
-model = getattr(models, config.model)()
+if config.model_path is not None:
+    model = getattr(models, config.model)(model_path=config.model_path)
+else:
+    model = getattr(models, config.model)()
 print "----------------------------------------------"
 print "Model name: ", model
-print "Model name: ", type(model)
+print "Model type: ", type(model)
+if config.model_path is not None:
+    print "Model path: ", config.model_path
 print "----------------------------------------------"
 
 # Load the test
@@ -34,7 +41,7 @@ test_library = ValidationTestLibrary(username="shailesh") # default url for HBP 
 test = test_library.get_validation_test(config.test)
 print "----------------------------------------------"
 print "Test name: ", test
-print "Test name: ", type(test)
+print "Test type: ", type(test)
 print "----------------------------------------------"
 
 # Run the test

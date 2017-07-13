@@ -1,4 +1,9 @@
+import os
 import sciunit
+<<<<<<< HEAD
+=======
+#from neuronunit.capabilities import ProvidesLayerInfo
+>>>>>>> upstream/master
 from hbp_validation_framework.versioning import Versioned
 
 #==============================================================================
@@ -47,6 +52,7 @@ class hippoCircuit(sciunit.Model, Versioned):
 
 #==============================================================================
 
+<<<<<<< HEAD
 class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
     id = ""
@@ -66,5 +72,36 @@ class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
     def get_NeuriteLength_info(self):
         return self.neuriteLength_info
+=======
+#class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
+class neuroM_loader(sciunit.Model, Versioned):
+        id = "3957bc1c-4a22-40ca-9ad6-879f75403219"
+
+        def __init__(self, name="neuroM_loader", model_path=None, soma_diameter={}):
+            self.soma_diameter = soma_diameter
+            sciunit.Model.__init__(self, name=name)
+            self.name = name
+            self.description = "Model for loading morphologies via NeuroM"
+            if model_path == None:
+                print "Please specify the path to the morphology file or the directory as the last parameter!"
+                print "Example Syntax1: python run_tests.py neuroM_loader https://validation.brainsimulation.eu/tests/7 ./files/1-1-DE-rep-ax-cor.swc"
+                print "Example Syntax2: python run_tests.py neuroM_loader https://validation.brainsimulation.eu/tests/7 ./files"
+                quit()
+            if os.path.isdir(model_path):
+                print "Directory"
+                quit()
+            self.morph_path = model_path
+            self.set_soma_diameter_info()
+
+        def set_soma_diameter_info(self):
+            import neurom as nm
+            nrn = nm.load_neuron(self.morph_path)
+            soma_radius = nm.get('soma_radii', nrn, neurite_type=nm.SOMA)
+            value = str(soma_radius[0]*2) + " um"
+            self.soma_diameter = { "diameter" : {"value" : value}}
+
+        def get_soma_diameter_info(self):
+            return self.soma_diameter
+>>>>>>> upstream/master
 
 #==============================================================================
