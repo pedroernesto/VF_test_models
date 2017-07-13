@@ -105,3 +105,25 @@ class neuroM_loader(sciunit.Model, Versioned):
 >>>>>>> upstream/master
 
 #==============================================================================
+
+class NeuroM_NeuriteLength(sciunit.Model, Versioned):
+
+    id = ""
+
+    def __init__(self, name='NeuriteLength', NeuriteLength_info={}):
+        sciunit.Model.__init__(self, name=name)
+        self.name = name
+        self.description = "Dummy model for testing neurite length"
+        self.set_NeuriteLength_info()
+        self.set_NeuriteLength_info_default()
+
+    def set_NeuriteLength_info(self):
+        self.NeuriteLength_info = NeuriteLength_info
+
+    def set_NeuriteLength_info_default(self):
+        self.NeuriteLength_info = { 'NeuriteLength': {'mean': '50 um', 'std': '4 um'} }
+
+    def get_NeuriteLength_info(self):
+        return self.neuriteLength_info
+
+#==============================================================================
