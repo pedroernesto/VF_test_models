@@ -50,23 +50,20 @@ class hippoCircuit(sciunit.Model, Versioned):
 
 class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
-    id = ""
+    id = "4d8f12b6549a516e9fade7c0e4c2f1def207156f"
 
     def __init__(self, name='NeuriteLength', NeuriteLength_info={}):
+        self.NeuriteLength_info = NeuriteLength_info
         sciunit.Model.__init__(self, name=name)
         self.name = name
         self.description = "Dummy model for testing neurite length"
-        self.set_NeuriteLength_info()
         self.set_NeuriteLength_info_default()
-
-    def set_NeuriteLength_info(self):
-        self.NeuriteLength_info = NeuriteLength_info
 
     def set_NeuriteLength_info_default(self):
         self.NeuriteLength_info = { 'NeuriteLength': {'mean': '50 um', 'std': '4 um'} }
 
     def get_NeuriteLength_info(self):
-        return self.neuriteLength_info
+        return self.NeuriteLength_info
     
 #==============================================================================
 
