@@ -60,7 +60,7 @@ class NeuroM_NeuriteLength(sciunit.Model, Versioned):
         self.set_NeuriteLength_info_default()
 
     def set_NeuriteLength_info_default(self):
-        self.NeuriteLength_info = { 'NeuriteLength': {'mean': '50 um', 'std': '4 um'} }
+        self.NeuriteLength_info = {'NeuriteLength': {'value': '60 um'}}
 
     def get_NeuriteLength_info(self):
         return self.NeuriteLength_info
