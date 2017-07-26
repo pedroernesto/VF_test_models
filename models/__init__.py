@@ -50,7 +50,7 @@ class hippoCircuit(sciunit.Model, Versioned):
 
 class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
-    id = "4d8f12b6549a516e9fade7c0e4c2f1def207156f"
+    id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
 
     def __init__(self, name='NeuriteLength', NeuriteLength_info={}):
         self.NeuriteLength_info = NeuriteLength_info
