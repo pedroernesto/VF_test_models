@@ -45,7 +45,7 @@ class hippoCircuit(sciunit.Model, Versioned):
 
         def get_density_info(self):
             return self.density_info
-
+    
 #==============================================================================
 
 #class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
