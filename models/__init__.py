@@ -45,25 +45,6 @@ class hippoCircuit(sciunit.Model, Versioned):
 
         def get_density_info(self):
             return self.density_info
-
-#==============================================================================
-
-class NeuroM_NeuriteLength(sciunit.Model, Versioned):
-
-    id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
-
-    def __init__(self, name='NeuriteLength', NeuriteLength_info={}):
-        self.NeuriteLength_info = NeuriteLength_info
-        sciunit.Model.__init__(self, name=name)
-        self.name = name
-        self.description = "Dummy model for testing neurite length"
-        self.set_NeuriteLength_info_default()
-
-    def set_NeuriteLength_info_default(self):
-        self.NeuriteLength_info = {'NeuriteLength': {'value': '60 um'}}
-
-    def get_NeuriteLength_info(self):
-        return self.NeuriteLength_info
     
 #==============================================================================
 
@@ -98,3 +79,44 @@ class neuroM_loader(sciunit.Model, Versioned):
             return self.soma_diameter
         
 #==============================================================================
+
+class NeuroM_NeuriteLength(sciunit.Model, Versioned):
+
+    id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
+
+    def __init__(self, name='NeuriteLength', NeuriteLength_info={}):
+        self.NeuriteLength_info = NeuriteLength_info
+        sciunit.Model.__init__(self, name=name)
+        self.name = name
+        self.description = "Dummy model for testing neurite length"
+        self.set_NeuriteLength_info_default()
+
+    def set_NeuriteLength_info_default(self):
+        self.NeuriteLength_info = {'NeuriteLength': {'value': '60 um'}}
+
+    def get_NeuriteLength_info(self):
+        return self.NeuriteLength_info
+
+#==============================================================================
+
+class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
+
+    id = ""
+
+    def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
+        self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
+        sciunit.Model.__init__(self, name=name)
+        self.name = name
+        self.description = "Dummy model to test neurite path-distances across CA1 layers"
+        self.set_CA1LayersNeuritePathDistance_info_default()
+
+    def set_CA1LayersNeuritePathDistance_info_default(self):
+        self.CA1LayersNeuritePathDistance_info = { "SLM": {'PathDistance': {'value':'120 um'}},
+						    "SR": {'PathDistance': {'value':'280 um'}},
+						    "SP": {'PathDistance': {'value':'40 um'}},
+						    "SO": {'PathDistance': {'value':'100 um'}}
+						  }
+
+    def get_CA1LayersNeuritePathDistance_info(self):
+        return self.CA1LayersNeuritePathDistance_info
+
