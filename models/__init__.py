@@ -101,7 +101,7 @@ class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
 class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 
-    id = ""
+    id = "bb06ab0a-685c-4f0f-b078-195cd947639f"
 
     def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
         self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
