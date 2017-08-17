@@ -112,7 +112,7 @@ class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 
     def set_CA1LayersNeuritePathDistance_info_default(self):
         self.CA1LayersNeuritePathDistance_info = { "SLM": {'PathDistance': {'value':'120 um'}},
-						    "SR": {'PathDistance': {'value':'290 um'}},
+						    "SR": {'PathDistance': {'value':'280 um'}},
 						    "SP": {'PathDistance': {'value':'40 um'}},
 						    "SO": {'PathDistance': {'value':'100 um'}}
 						  }
