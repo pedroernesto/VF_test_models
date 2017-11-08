@@ -155,17 +155,6 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
     def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
 
-	'''
-	# Model releases on Julia/Juron clusters
-	circuit_path = '/work/pra098/pra09801/CircuitRelease/r2017.06b/CircuitConfig'
-	volume_path = '/work/pra098/pra09801/CircuitRelease/r2017.06b/volume/volume.nrrd'
-	hierarchy_path = '/work/pra098/pra09801/CircuitRelease/r2017.06b/volume/hierarchy.json'
-
-        self.circuit = bluepy.Circuit(circuit_path)
-        self.annotation = VoxelData.load_nrrd(volume_path)
-        self.region_map = RegionMap.from_json(hierarchy_path)
-	'''
-
         sciunit.Model.__init__(self, name=name)
         self.name = name
         self.description = "HBP Hippocampus's output to test synapses distribution across CA1 layers"
