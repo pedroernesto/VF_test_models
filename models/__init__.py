@@ -3,6 +3,7 @@ import sciunit
 from hbp_validation_framework.versioning import Versioned
 
 import json
+import cPickle as pickle
 
 #==============================================================================
 
@@ -159,8 +160,80 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
     def set_CA1_laminar_distribution_synapses_info_default(self):
         model_prediction_path = "./models/model_predictions/CA1_laminar_distribution_synapses_HBPmod.json" 
+	'''
 	json_data=open(model_prediction_path).read()
-        self.CA1_laminar_distribution_synapses_info = json.load(json_data)
+	print type(json_data)
+	a = json.loads(json_data)
+	'''
+	data = {
+        "AA":{
+	        "SO": {"mean": "0.000000"},
+	        "SP": {"mean": "1.000000"},
+   	        "SR": {"mean": "0.000000"},
+   	        "SLM":{"mean": "0.000000"}
+        },
+        "BP":{
+   	        "SO": {"mean": "0.580000"},
+	        "SP": {"mean": "0.000000"},
+   	        "SR": {"mean": "0.420000"},
+   	        "SLM":{"mean": "0.000000"}
+        },
+        "BS":{
+   	        "SO":  {"mean": "0.510000"},
+   	        "SP":  {"mean": "0.066667"},
+   	        "SR":  {"mean": "0.423333"},
+   	        "SLM": {"mean": "0.000000"}
+        },
+        "CCKBC":{
+   	        "SO":  {"mean": "0.190000"},
+   	        "SP":  {"mean": "0.600000"},
+   	        "SR":  {"mean": "0.200000"},
+   	        "SLM": {"mean": "0.010000"}
+        },
+        "Ivy":{
+   	        "SO":  {"mean": "0.400000"},
+   	        "SP":  {"mean": "0.020000"},
+   	        "SR":  {"mean": "0.500000"},
+   	        "SLM": {"mean": "0.080000"}
+        },
+        "OLM":{
+   	        "SO":  {"mean": "0.071066"},
+   	        "SP":  {"mean": "0.000000"},
+   	        "SR":  {"mean": "0.000000"},
+   	        "SLM": {"mean": "0.928934"}
+        },
+        "PC":{
+   	        "SO":  {"mean": "1.000000"},
+   	        "SP":  {"mean": "0.000000"},
+   	        "SR":  {"mean": "0.000000"},
+   	        "SLM": {"mean": "0.000000"}
+        },
+        "PPA":{
+   	        "SO":  {"mean": "0.000000"},
+   	        "SP":  {"mean": "0.000000"},
+   	        "SR":  {"mean": "0.000000"},
+   	        "SLM": {"mean": "1.000000"}
+        },
+        "SCA":{
+   	        "SO":  {"mean": "0.096000"},
+   	        "SP":  {"mean": "0.042000"},
+   	        "SR":  {"mean": "0.824000"},
+   	        "SLM": {"mean": "0.038000"}
+        },
+        "Tri":{
+   	        "SO":  {"mean": "0.130746"},
+   	        "SP":  {"mean": "0.170582"},
+   	        "SR":  {"mean": "0.698672"},
+   	        "SLM": {"mean": "0.000000"}
+        }
+    }
+
+
+	with open('data.json', 'w') as fp:
+	    json.dump(data, fp)
+
+	# print a
+#        self.CA1_laminar_distribution_synapses_info = json.loads(json_data)
 
 
     def get_CA1_laminar_distribution_synapses_info(self):

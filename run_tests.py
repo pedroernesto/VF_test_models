@@ -37,7 +37,7 @@ print "----------------------------------------------"
 # if it is not, fail with instructions for registering,
 # or offer to register it
 # test_library = ValidationTestLibrary() # default url for HBP service
-test_library = ValidationTestLibrary(username="shailesh") # default url for HBP service
+test_library = ValidationTestLibrary(username="pedroernesto") # default url for HBP service
 test = test_library.get_validation_test(config.test)
 print "----------------------------------------------"
 print "Test name: ", test
