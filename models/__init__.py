@@ -2,6 +2,8 @@ import os
 import sciunit
 from hbp_validation_framework.versioning import Versioned
 
+import json
+
 #==============================================================================
 
 class testColumn(sciunit.Model, Versioned):
@@ -146,8 +148,6 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
     id = "29fea470-9b19-4714-a499-d639e6ec2549)"
 
-    import json
-
     def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
 
         sciunit.Model.__init__(self, name=name)
@@ -158,9 +158,9 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
 
     def set_CA1_laminar_distribution_synapses_info_default(self):
-        model_prediction_path = "./model_predictions/CA1_laminar_distribution_synapses_HBPmod.json" 
+        model_prediction_path = "./models/model_predictions/CA1_laminar_distribution_synapses_HBPmod.json" 
 	json_data=open(model_prediction_path).read()
-        self.CA1_laminar_distribution_synapses_info = json.loads(json_data)
+        self.CA1_laminar_distribution_synapses_info = json.load(json_data)
 
 
     def get_CA1_laminar_distribution_synapses_info(self):
