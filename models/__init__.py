@@ -144,8 +144,7 @@ class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 
 class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
-    id = ""
-    version = "Project42-EPFL-v0.1"
+    id = "29fea470-9b19-4714-a499-d639e6ec2549)"
 
     import bluepy
     from bluepy.v2.enums import Synapse
