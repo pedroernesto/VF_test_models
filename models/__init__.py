@@ -146,10 +146,6 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
     id = "29fea470-9b19-4714-a499-d639e6ec2549)"
 
-    import bluepy
-    from bluepy.v2.enums import Synapse
-    from voxcell import VoxelData, RegionMap
-
     import json
 
     def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
