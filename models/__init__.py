@@ -7,7 +7,7 @@ import json
 #==============================================================================
 
 class testColumn(sciunit.Model, Versioned):
-    id = "9ade6831-a758-42be-a50e-d5cb65859c34"
+    instance_id = "9ade6831-a758-42be-a50e-d5cb65859c34"
 
     def __init__(self, name="testColumn", layer_info={}):
         self.layer_info = layer_info
@@ -33,7 +33,7 @@ class testColumn(sciunit.Model, Versioned):
 #==============================================================================
 
 class hippoCircuit(sciunit.Model, Versioned):
-        id = "f25d05b2-2358-418b-8914-fe02a412ac74"
+        instance_id = "f25d05b2-2358-418b-8914-fe02a412ac74"
 
         def __init__(self, name="hippoCircuit", density_info={}):
             self.density_info = density_info
@@ -52,7 +52,7 @@ class hippoCircuit(sciunit.Model, Versioned):
 
 #class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
 class neuroM_loader(sciunit.Model, Versioned):
-        id = "3957bc1c-4a22-40ca-9ad6-879f75403219"
+        instance_id = "3957bc1c-4a22-40ca-9ad6-879f75403219"
 
         def __init__(self, name="neuroM_loader", model_path=None, soma_diameter={}):
             self.soma_diameter = soma_diameter
@@ -84,7 +84,7 @@ class neuroM_loader(sciunit.Model, Versioned):
 
 class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
-    id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
+    instance_id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
 
     def __init__(self, name='NeuriteLength', model_path=None, cell_part=None,
                  cell_feature_name='terminal_path_lengths_per_neurite', NeuriteLength_info={}):
@@ -123,7 +123,7 @@ class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
 class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 
-    id = "bb06ab0a-685c-4f0f-b078-195cd947639f"
+    instance_id = "bb06ab0a-685c-4f0f-b078-195cd947639f"
 
     def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
         self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
