@@ -121,7 +121,7 @@ class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
     # instance_id = "ede4c9ef-970b-4431-9f5b-cf0ca96c77e3" # dev
-    instance_id = "d8f3333c-476d-4807-b433-c9fb68251514" # prod
+    model_instance_uuid = "d8f3333c-476d-4807-b433-c9fb68251514" # prod
 
     def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
 
