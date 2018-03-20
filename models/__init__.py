@@ -59,6 +59,7 @@ class neuroM_loader(sciunit.Model, Versioned):
 class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 
     instance_id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
+    # model_instance_uuid =  # prod
 
     def __init__(self, name='NeuriteLength', model_path=None, cell_part=None,
                  cell_feature_name='terminal_path_lengths_per_neurite', NeuriteLength_info={}):
@@ -98,6 +99,7 @@ class NeuroM_NeuriteLength(sciunit.Model, Versioned):
 class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 
     instance_id = "bb06ab0a-685c-4f0f-b078-195cd947639f"
+    # model_instance_uuid = # prod
 
     def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
         self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
@@ -127,7 +129,7 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
         sciunit.Model.__init__(self, name=name)
         self.name = name
-        self.description = "HBP Hippocampus's output to test synapses distribution across CA1 layers"
+        self.description = "HBP Hippocampus CA1's output to test synapses distribution across CA1 layers"
         self.CA1_laminar_distribution_synapses_info = CA1_laminar_distribution_synapses_info
         self.set_CA1_laminar_distribution_synapses_info_default()
 
