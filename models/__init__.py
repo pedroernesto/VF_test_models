@@ -89,7 +89,7 @@ class NeuroM_NeuriteLength(sciunit.Model, Versioned):
         import neurom as nm
         nrn = nm.load_neuron(self.morph_path)
         length_value = nm.get(self.cell_feature_name, nrn, neurite_type=eval('nm.'+self.cell_part))
-	feature_value = str(length_value[0]) + " um"
+        feature_value = str(length_value[0]) + " um"
         self.NeuriteLength_info = { 'NeuriteLength': {'value': feature_value }
 
     def get_NeuriteLength_info(self):
