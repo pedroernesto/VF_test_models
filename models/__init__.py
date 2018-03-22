@@ -56,44 +56,51 @@ class neuroM_loader(sciunit.Model, Versioned):
         
 #==============================================================================
 
-class NeuroM_NeuriteLength(sciunit.Model, Versioned):
+class NeuroM_stats(sciunit.Model, Versioned)
+    """A class to interact with morphology files via the statistical-analysis-NeuroM's API (neurom.stats)"""
 
     instance_id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
     # model_instance_uuid =  # prod
 
-    def __init__(self, name='NeuriteLength', model_path=None, cell_part=None,
-                 cell_feature_name='terminal_path_lengths_per_neurite', NeuriteLength_info={}):
+    def __init__(self, name='NeuroM_stats', model_path=None, cell_part=None, morph_feature_names=None):
 
         sciunit.Model.__init__(self, name=name)
+        self.description = "A class to interact with morphology files via the statistical-analysis-NeuroM's API (neurom.stats)"
         self.name = name
-        self.description = "Model for testing neurite (euclidean) length"
-        self.NeuriteLength_info = NeuriteLength_info
+        self.morph_path = model_path
+        self.check_query(cell_part=cell_part, morph_feature_names=morph_feature_names)
+        self.set_morph_feature_info()
 
-        if model_path == None:
+    def check_query(self, **kwargs):
+
+        if self.morph_path==None:
             print "Please specify the path to the morphology file or the directory"
             quit()
-        if os.path.isdir(model_path):
+        if os.path.isdir(self.morph_path):
             print "Directory"
             quit()
+        try:
+           kwargs.get('cell_part') in ['SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE']:
+           self.cell_part = 'nm.' + cell_part
+        except:
+           print "Please, specify a valid cell part: 'SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE'"
+           quit()
 
-        if cell_part not in ['SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE']:
-            print "Please, specify a valid cell part: 'SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE'"
-            quit()
+        self.morph_feature_names = kwargs.get('morph_feature_names')
 
-        self.morph_path = model_path
-        self.cell_part = cell_part
-        self.cell_feature_name = cell_feature_name
-        self.set_NeuriteLength_info()
-
-    def set_NeuriteLength_info(self):
+    def set_morph_feature_info(self): #['number_of_forking_points', 'terminal_path_lengths_per_neurite']
         import neurom as nm
-        nrn = nm.load_neuron(self.morph_path)
-        length_value = nm.get(self.cell_feature_name, nrn, neurite_type=eval('nm.'+self.cell_part))
-        feature_value = str(length_value[0]) + " um"
-        self.NeuriteLength_info = { 'NeuriteLength': {'value': feature_value }
+        neuron_model = nm.load_neuron(self.morph_path)
 
-    def get_NeuriteLength_info(self):
-        return self.NeuriteLength_info
+        feature_values_dict = dict.fromkeys(self.morph_feature_names, [])
+        for feature_name in feature_values_dict.keys():
+            feature_value = nm.get(feature_name, neuron_model, neurite_type=self.cell_part)
+            feature_values_dict[feature_name]['value'] = str(feature_value[0]) + " um"
+
+        self.morph_feature_info = feature_values_dict
+
+    def get_morph_feature_info(self):
+        return self.morph_feature_info
 
 #==============================================================================
 
