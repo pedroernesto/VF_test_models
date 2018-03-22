@@ -56,7 +56,7 @@ class neuroM_loader(sciunit.Model, Versioned):
         
 #==============================================================================
 
-class NeuroM_stats(sciunit.Model, Versioned)
+class NeuroM_stats(sciunit.Model, Versioned):
     """A class to interact with morphology files via the statistical-analysis-NeuroM's API (neurom.stats)"""
 
     instance_id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
@@ -80,22 +80,23 @@ class NeuroM_stats(sciunit.Model, Versioned)
             print "Directory"
             quit()
         try:
-           kwargs.get('cell_part') in ['SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE']:
-           self.cell_part = 'nm.' + cell_part
+            kwargs.get('cell_part') in ['SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE']
         except:
-           print "Please, specify a valid cell part: 'SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE'"
-           quit()
+            print "Please, specify a valid cell part: 'SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE'"
 
+        self.cell_part = 'nm.' + kwargs.get('cell_part')
         self.morph_feature_names = kwargs.get('morph_feature_names')
 
-    def set_morph_feature_info(self): #['number_of_forking_points', 'terminal_path_lengths_per_neurite']
+    def set_morph_feature_info(self): #['number_of_forking_points', 'terminal_path_lengths_per_neurite', 'number_of_neurites']
         import neurom as nm
         neuron_model = nm.load_neuron(self.morph_path)
 
         feature_values_dict = dict.fromkeys(self.morph_feature_names, [])
         for feature_name in feature_values_dict.keys():
             feature_value = nm.get(feature_name, neuron_model, neurite_type=self.cell_part)
-            feature_values_dict[feature_name]['value'] = str(feature_value[0]) + " um"
+            print 'feature_name, type(feature_value):', feature_name, feature_value[0], type(feature_value)
+
+            feature_values_dict[feature_name] = {'value: ' + str(feature_value) + " um"}
 
         self.morph_feature_info = feature_values_dict
 
