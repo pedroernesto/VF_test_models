@@ -88,7 +88,14 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
         self.cell_part = kwargs.get('cell_part')
         self.morph_feature_names = kwargs.get('morph_feature_names')
 
-    def set_morph_feature_info(self): #['number_of_forking_points', 'terminal_path_lengths_per_neurite', 'number_of_neurites']
+    def set_morph_feature_info(self):
+        """
+        Must return a dictionary of the form:
+        {'cell_name': { 'morph_feature_name_1': {'value': ['X0_1 um', 'X0_2 um', ...] }},
+                      { 'morph_feature_name_2': {'value': ['X1_1 um', 'X1_2 um', ...] }}
+                      ...
+        }
+        """
         import neurom as nm
         neuron_model = nm.load_neuron(self.morph_path)
 
