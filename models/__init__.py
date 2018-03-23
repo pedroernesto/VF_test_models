@@ -1,4 +1,4 @@
-import os
+import os, sys
 import sciunit
 from hbp_validation_framework.versioning import Versioned
 
@@ -56,8 +56,8 @@ class neuroM_loader(sciunit.Model, Versioned):
         
 #==============================================================================
 
-class NeuroM_stats(sciunit.Model, Versioned):
-    """A class to interact with morphology files via the statistical-analysis-NeuroM's API (neurom.stats)"""
+class NeuroM_MorphStats(sciunit.Model, Versioned):
+    """A class to interact with morphology files via the morphometrics-NeuroM's API (neurom.fst)"""
 
     instance_id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
     # model_instance_uuid =  # prod
@@ -65,7 +65,7 @@ class NeuroM_stats(sciunit.Model, Versioned):
     def __init__(self, name='NeuroM_stats', model_path=None, cell_part=None, morph_feature_names=None):
 
         sciunit.Model.__init__(self, name=name)
-        self.description = "A class to interact with morphology files via the statistical-analysis-NeuroM's API (neurom.stats)"
+        self.description = "A class to interact with morphology files via the morphometrics-NeuroM's API (neurom.fst)"
         self.name = name
         self.morph_path = model_path
         self.check_query(cell_part=cell_part, morph_feature_names=morph_feature_names)
@@ -75,16 +75,17 @@ class NeuroM_stats(sciunit.Model, Versioned):
 
         if self.morph_path==None:
             print "Please specify the path to the morphology file or the directory"
-            quit()
+            sys.exit()
         if os.path.isdir(self.morph_path):
             print "Directory"
-            quit()
+            sys.exit()
         try:
             kwargs.get('cell_part') in ['SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE']
         except:
             print "Please, specify a valid cell part: 'SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE'"
 
-        self.cell_part = 'nm.' + kwargs.get('cell_part')
+        self.cell_name = self.morph_path.split("/")[-1]
+        self.cell_part = kwargs.get('cell_part')
         self.morph_feature_names = kwargs.get('morph_feature_names')
 
     def set_morph_feature_info(self): #['number_of_forking_points', 'terminal_path_lengths_per_neurite', 'number_of_neurites']
@@ -93,12 +94,10 @@ class NeuroM_stats(sciunit.Model, Versioned):
 
         feature_values_dict = dict.fromkeys(self.morph_feature_names, [])
         for feature_name in feature_values_dict.keys():
-            feature_value = nm.get(feature_name, neuron_model, neurite_type=self.cell_part)
-            print 'feature_name, type(feature_value):', feature_name, feature_value[0], type(feature_value)
+            feature_value = nm.get(feature_name, neuron_model, neurite_type=getattr(nm, self.cell_part))
+            feature_values_dict[feature_name] = {'value': [str(feature_v) + ' um' for feature_v in feature_value]}
 
-            feature_values_dict[feature_name] = {'value: ' + str(feature_value) + " um"}
-
-        self.morph_feature_info = feature_values_dict
+        self.morph_feature_info = {self.cell_name: feature_values_dict}
 
     def get_morph_feature_info(self):
         return self.morph_feature_info
@@ -118,11 +117,11 @@ class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
         self.set_CA1LayersNeuritePathDistance_info_default()
 
     def set_CA1LayersNeuritePathDistance_info_default(self):
-        self.CA1LayersNeuritePathDistance_info = { "SLM": {'PathDistance': {'value':'120 um'}},
-						    "SR": {'PathDistance': {'value':'280 um'}},
-						    "SP": {'PathDistance': {'value':'40 um'}},
-						    "SO": {'PathDistance': {'value':'100 um'}}
-						  }
+        self.CA1LayersNeuritePathDistance_info = {"SLM": {'PathDistance': {'value':'120 um'}},
+                                                  "SR": {'PathDistance': {'value':'280 um'}},
+                                                  "SP": {'PathDistance': {'value':'40 um'}},
+                                                  "SO": {'PathDistance': {'value':'100 um'}}
+                                                 }
 
     def get_CA1LayersNeuritePathDistance_info(self):
         return self.CA1LayersNeuritePathDistance_info
