@@ -57,55 +57,78 @@ class neuroM_loader(sciunit.Model, Versioned):
 #==============================================================================
 
 class NeuroM_MorphStats(sciunit.Model, Versioned):
-    """A class to interact with morphology files via the morphometrics-NeuroM's API (neurom.fst)"""
+    """A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"""
 
     instance_id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
     # model_instance_uuid =  # prod
 
-    def __init__(self, name='NeuroM_stats', model_path=None, cell_part=None, morph_feature_names=None):
+    def __init__(self, name='NeuroM_stats', models_path=None, config_file=None, output_file=None):
 
         sciunit.Model.__init__(self, name=name)
-        self.description = "A class to interact with morphology files via the morphometrics-NeuroM's API (neurom.fst)"
+        self.description = "A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"
         self.name = name
-        self.morph_path = model_path
-        self.check_query(cell_part=cell_part, morph_feature_names=morph_feature_names)
-        self.set_morph_feature_info()
-
-    def check_query(self, **kwargs):
-
-        if self.morph_path==None:
-            print "Please specify the path to the morphology file or the directory"
-            sys.exit()
-        if os.path.isdir(self.morph_path):
-            print "Directory"
-            sys.exit()
-        try:
-            kwargs.get('cell_part') in ['SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE']
-        except:
-            print "Please, specify a valid cell part: 'SOMA', 'AXON', 'APICAL_DENDRITE', 'BASAL_DENDRITE'"
-
-        self.cell_name = self.morph_path.split("/")[-1]
-        self.cell_part = kwargs.get('cell_part')
-        self.morph_feature_names = kwargs.get('morph_feature_names')
+        # model_path = ~/Bureau/str-fs_pv-20170919/030225-5-PV-rep-cor.swc
+        self.morph_path = models_path
+        self.model_pred_path = "./models/model_predictions/NeuroM_MorphStats_predictions.json"
+        self.morph_feature_info = self.set_morph_feature_info()
 
     def set_morph_feature_info(self):
         """
         Must return a dictionary of the form:
-        {'cell_name': { 'morph_feature_name_1': {'value': ['X0_1 some_unit', 'X0_2 some_unit', ...] },
-                        'morph_feature_name_2': {'value': ['X1_1 some_unit', 'X1_2 some_unit', ...] },
-                        ...
-                      }
-        }
+        {"cell1_ID": { "cell_part_1": {"morph_feature_name_11': {'value': 'X11 some_unit'},
+                                       "morph_feature_name_12': {'value': 'X12 some_unit'},
+                                        ... }
+                       "cell_part_2": {'morph_feature_name_21': {'value': 'X21 some_unit'},
+                                       'morph_feature_name_22': {'value': 'X22 some_unit'},
+                                        ... }
+                       ... }
+         "cell2_ID": { "cell_part_1": {"morph_feature_name_11': {'value': 'Y11 some_unit'},
+                                       "morph_feature_name_12': {'value': 'Y12 some_unit'},
+                                        ... }
+                       "cell_part_2": {'morph_feature_name_21': {'value': 'Y21 some_unit'},
+                                       'morph_feature_name_22': {'value': 'Y22 some_unit'},
+                                        ... }
+                       ... }
+        ... }
         """
-        import neurom as nm
-        neuron_model = nm.load_neuron(self.morph_path)
+        '''
+        try:
+            os.system('morph_stats -C morph_stats_config.yaml ./str-fs_pv-20170919/030225-5-PV-rep-cor.swc -o ./NeuroM_MorphStats_predictions.json')
+        except IOError:
+            print "Please specify the path to the morphology file or the directory"
+        '''
 
-        feature_values_dict = dict.fromkeys(self.morph_feature_names, [])
-        for feature_name in feature_values_dict.keys():
-            feature_value = nm.get(feature_name, neuron_model, neurite_type=getattr(nm, self.cell_part))
-            feature_values_dict[feature_name] = {'value': [str(feature_v) + ' um' for feature_v in feature_value]}
+        with open(self.model_pred_path, 'r') as fp:
+            mod_prediction = json.load(fp)
+        fp.close()
 
-        self.morph_feature_info = {self.cell_name: feature_values_dict}
+        # Regrouping all soma's features-values pairs into a unique 'soma' key inside mood_prediction
+        for dict1 in mod_prediction.values():  # Set of cell's part-features dictionary pairs for each cell
+            soma_features = dict()
+            for key, val in dict1.items():
+                if key.find('soma') == -1:
+                    continue
+                soma_features.update({key: val})
+                del dict1[key]
+                dict1.update({"soma": soma_features})
+
+        # Adding the right units and converting feature values to strings
+        dim_um = ['radius', 'radii', 'diameter', 'length', 'distance', 'extent']
+        for dict1 in mod_prediction.values():  # Dict. with cell's part-feature dictionary pairs for each cell
+            for dict2 in dict1.values():  # Dict. with feature name-value pairs for each cell part:
+                                          # soma, apical_dendrite, basal_dendrite or axon
+                for key, val in dict2.items():
+                    if any(sub_str in key for sub_str in ['radius', 'radii']):
+                        del dict2[key]
+                        val *= 2
+                        key = key.replace('radius', 'diameter')
+                        key = key.replace('radii', 'diameter')
+                    if any(sub_str in key for sub_str in dim_um):
+                        dict2[key] = dict(value=str(val)+' um')
+                    else:
+                        dict2[key] = dict(value=str(val))
+
+        return mod_prediction
 
     def get_morph_feature_info(self):
         return self.morph_feature_info
