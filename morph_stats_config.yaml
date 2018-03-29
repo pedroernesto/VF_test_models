@@ -1,0 +1,21 @@
+neurite:
+
+    # segment_x_coordinates: [mean, total]
+    # segment_y_coordinates: [mean, total]
+    # segment_z_coordinates: [mean, total]
+    # principal_direction_extents: [mean, total]
+    # total_length_per_neurite: [mean]
+
+    neurite_lengths: [mean]
+    number_of_neurites: [total]
+
+    section_branch_orders: [max]
+    # bifurcation_number: [max, min, mean, median, std, total]
+    # number_of_bifurcations: [max, min, mean, median, std, total]
+
+neurite_type:
+    - AXON
+    - BASAL_DENDRITE
+
+neuron:
+    soma_radii: [total]
