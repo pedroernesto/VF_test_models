@@ -75,19 +75,19 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
     def set_morph_feature_info(self):
         """
         Must return a dictionary of the form:
-        {"cell1_ID": { "cell_part_1": {"morph_feature_name_11': {'value': 'X11 some_unit'},
-                                       "morph_feature_name_12': {'value': 'X12 some_unit'},
-                                        ... }
-                       "cell_part_2": {'morph_feature_name_21': {'value': 'X21 some_unit'},
-                                       'morph_feature_name_22': {'value': 'X22 some_unit'},
-                                        ... }
+        {"cell1_ID": { 'cell_part_1': {'morph_feature_name_11': {'value': 'X11 units_str'},
+                                       'morph_feature_name_12': {'value': 'X12 units_str'},
+                                        ... },
+                       'cell_part_2': {'morph_feature_name_21': {'value': 'X21 units_str'},
+                                       'morph_feature_name_22': {'value': 'X22 units_str'},
+                                        ... },
                        ... }
-         "cell2_ID": { "cell_part_1": {"morph_feature_name_11': {'value': 'Y11 some_unit'},
-                                       "morph_feature_name_12': {'value': 'Y12 some_unit'},
-                                        ... }
-                       "cell_part_2": {'morph_feature_name_21': {'value': 'Y21 some_unit'},
-                                       'morph_feature_name_22': {'value': 'Y22 some_unit'},
-                                        ... }
+         "cell2_ID": { 'cell_part_1': {'morph_feature_name_11': {'value': 'Y11 units_str'},
+                                       'morph_feature_name_12': {'value': 'Y12 units_str'},
+                                        ... },
+                       'cell_part_2': {'morph_feature_name_21': {'value': 'Y21 units_str'},
+                                       'morph_feature_name_22': {'value': 'Y22 units_str'},
+                                        ... },
                        ... }
         ... }
         """
@@ -103,10 +103,13 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
             mod_prediction = json.load(fp)
         fp.close()
 
+
         # Regrouping all soma's features-values pairs into a unique 'soma' key inside mood_prediction
         for dict1 in mod_prediction.values():  # Set of cell's part-features dictionary pairs for each cell
             soma_features = dict()
             for key, val in dict1.items():
+                if key == 'axon':
+                    del dict1[key]["max_section_branch_order"]  # In case such experimental data is not provided
                 if key.find('soma') == -1:
                     continue
                 soma_features.update({key: val})
@@ -115,15 +118,15 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
 
         # Adding the right units and converting feature values to strings
         dim_um = ['radius', 'radii', 'diameter', 'length', 'distance', 'extent']
-        for dict1 in mod_prediction.values():  # Dict. with cell's part-feature dictionary pairs for each cell
+        for dict1 in mod_prediction.values():  # Dict. with cell's part-features dictionary pairs for each cell
             for dict2 in dict1.values():  # Dict. with feature name-value pairs for each cell part:
                                           # soma, apical_dendrite, basal_dendrite or axon
                 for key, val in dict2.items():
                     if any(sub_str in key for sub_str in ['radius', 'radii']):
                         del dict2[key]
                         val *= 2
-                        key = key.replace('radius', 'diameter')
-                        key = key.replace('radii', 'diameter')
+                        key = key.replace("radius", "diameter")
+                        key = key.replace("radii", "diameter")
                     if any(sub_str in key for sub_str in dim_um):
                         dict2[key] = dict(value=str(val)+' um')
                     else:
