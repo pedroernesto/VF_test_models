@@ -69,7 +69,7 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
         self.name = name
         # model_path = ~/Bureau/str-fs_pv-20170919/030225-5-PV-rep-cor.swc
         self.morph_path = models_path
-        self.model_pred_path = "./models/model_predictions/NeuroM_MorphStats_predictions.json"
+        self.model_pred_path = "./models/model_predictions/NeuroM_MorphStats_predictions_new.json"
         self.morph_feature_info = self.set_morph_feature_info()
 
     def set_morph_feature_info(self):
@@ -91,12 +91,13 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
                        ... }
         ... }
         """
-        '''
+
         try:
-            os.system('morph_stats -C morph_stats_config.yaml ./str-fs_pv-20170919/030225-5-PV-rep-cor.swc -o ./NeuroM_MorphStats_predictions.json')
+            os.system('morph_stats -C morph_stats_config.yaml ./str-fs_pv-20170919 -o '
+                      './models/model_predictions/NeuroM_MorphStats_predictions_new.json')
         except IOError:
             print "Please specify the path to the morphology file or the directory"
-        '''
+
 
         with open(self.model_pred_path, 'r') as fp:
             mod_prediction = json.load(fp)
