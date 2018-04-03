@@ -59,8 +59,7 @@ class neuroM_loader(sciunit.Model, Versioned):
 class NeuroM_MorphStats(sciunit.Model, Versioned):
     """A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"""
 
-    instance_id = "afc85429-0db2-4414-8fc7-3ed5781a5019"
-    # model_instance_uuid =  # prod
+    model_instance_uuid = "cba18d6d-a60c-491d-bc8f-09114d127aac"
 
     def __init__(self, name='NeuroM_stats', models_path=None, config_file=None, output_file=None):
 
@@ -123,33 +122,8 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
 
 #==============================================================================
 
-class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
-
-    instance_id = "bb06ab0a-685c-4f0f-b078-195cd947639f"
-    # model_instance_uuid = # prod
-
-    def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
-        self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
-        sciunit.Model.__init__(self, name=name)
-        self.name = name
-        self.description = "Dummy model to test neurite path-distances across CA1 layers"
-        self.set_CA1LayersNeuritePathDistance_info_default()
-
-    def set_CA1LayersNeuritePathDistance_info_default(self):
-        self.CA1LayersNeuritePathDistance_info = {"SLM": {'PathDistance': {'value':'120 um'}},
-                                                  "SR": {'PathDistance': {'value':'280 um'}},
-                                                  "SP": {'PathDistance': {'value':'40 um'}},
-                                                  "SO": {'PathDistance': {'value':'100 um'}}
-                                                 }
-
-    def get_CA1LayersNeuritePathDistance_info(self):
-        return self.CA1LayersNeuritePathDistance_info
-
-#==============================================================================
-
 class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
-    # instance_id = "ede4c9ef-970b-4431-9f5b-cf0ca96c77e3" # dev
     model_instance_uuid = "d8f3333c-476d-4807-b433-c9fb68251514" # prod
 
     def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
@@ -168,3 +142,27 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
     def get_CA1_laminar_distribution_synapses_info(self):
         return self.CA1_laminar_distribution_synapses_info
+
+#==============================================================================
+
+class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
+
+    # model_instance_uuid = 
+
+    def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
+        self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
+        sciunit.Model.__init__(self, name=name)
+        self.name = name
+        self.description = "Dummy model to test neurite path-distances across CA1 layers"
+        self.set_CA1LayersNeuritePathDistance_info_default()
+
+    def set_CA1LayersNeuritePathDistance_info_default(self):
+        self.CA1LayersNeuritePathDistance_info = {"SLM": {'PathDistance': {'value':'120 um'}},
+                                                  "SR": {'PathDistance': {'value':'280 um'}},
+                                                  "SP": {'PathDistance': {'value':'40 um'}},
+                                                  "SO": {'PathDistance': {'value':'100 um'}}
+                                                 }
+
+    def get_CA1LayersNeuritePathDistance_info(self):
+        return self.CA1LayersNeuritePathDistance_info
+
