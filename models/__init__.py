@@ -107,8 +107,6 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
         for dict1 in mod_prediction.values():  # Set of cell's part-features dictionary pairs for each cell
             soma_features = dict()
             for key, val in dict1.items():
-                if key == 'axon':
-                    del dict1[key]["max_section_branch_order"]  # In case such experimental data is not provided
                 if key.find('soma') == -1:
                     continue
                 soma_features.update({key: val})
