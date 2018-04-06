@@ -66,7 +66,6 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
         sciunit.Model.__init__(self, name=name)
         self.description = "A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"
         self.name = name
-        # model_path = ~/Bureau/str-fs_pv-20170919/030225-5-PV-rep-cor.swc
         self.morph_path = models_path
         self.model_pred_path = "./models/model_predictions/NeuroM_MorphStats_predictions_new.json"
         self.morph_feature_info = self.set_morph_feature_info()
@@ -92,16 +91,16 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
         """
 
         try:
-            os.system('morph_stats -C morph_stats_config.yaml ./str-fs_pv-20170919 -o '
-                      './models/model_predictions/NeuroM_MorphStats_predictions_new.json')
+            os.chdir('./str-fs_pv-20170919')  # Entering morphology's directory
+            os.system('morph_stats -C ../morph_stats_config.yaml . '
+                      '-o ../models/model_predictions/NeuroM_MorphStats_predictions_new.json')
+            os.chdir('..')
         except IOError:
-            print "Please specify the path to the morphology file or the directory"
-
+            print "Please specify the path to the morphology directory"
 
         with open(self.model_pred_path, 'r') as fp:
             mod_prediction = json.load(fp)
         fp.close()
-
 
         # Regrouping all soma's features-values pairs into a unique 'soma' key inside mood_prediction
         for dict1 in mod_prediction.values():  # Set of cell's part-features dictionary pairs for each cell
