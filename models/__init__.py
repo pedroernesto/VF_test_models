@@ -162,4 +162,3 @@ class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 
     def get_CA1LayersNeuritePathDistance_info(self):
         return self.CA1LayersNeuritePathDistance_info
-
