@@ -61,13 +61,14 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
 
     model_instance_uuid = "cba18d6d-a60c-491d-bc8f-09114d127aac"
 
-    def __init__(self, name='NeuroM_stats', models_path=None, config_file=None, output_file=None):
+    def __init__(self, name='NeuroM_MorphStats', model_path=None, config_path=None, output_file=None):
 
         sciunit.Model.__init__(self, name=name)
         self.description = "A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"
         self.name = name
-        self.morph_path = models_path
-        self.model_pred_path = "./models/model_predictions/NeuroM_MorphStats_predictions_new.json"
+        self.morph_path = model_path
+        self.config_path = config_path
+        self.model_pred_path = output_file
         self.morph_feature_info = self.set_morph_feature_info()
 
     def set_morph_feature_info(self):
@@ -91,12 +92,9 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
         """
 
         try:
-            os.chdir('./str-fs_pv-20170919')  # Entering morphology's directory
-            os.system('morph_stats -C ../morph_stats_config.yaml . '
-                      '-o ../models/model_predictions/NeuroM_MorphStats_predictions_new.json')
-            os.chdir('..')
+            os.system('morph_stats -C {} -o {} {}'.format(self.config_path, self.model_pred_path, self.morph_path))
         except IOError:
-            print "Please specify the path to the morphology directory"
+            print "Please specify the paths to the morphology directory and configuration file for morph_stats"
 
         with open(self.model_pred_path, 'r') as fp:
             mod_prediction = json.load(fp)
