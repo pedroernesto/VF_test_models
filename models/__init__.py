@@ -115,7 +115,7 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
     def get_morph_feature_info(self):
         return self.morph_feature_info
 
-#==============================================================================
+# ==============================================================================
 
 class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
 
@@ -138,7 +138,7 @@ class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
     def get_CA1_laminar_distribution_synapses_info(self):
         return self.CA1_laminar_distribution_synapses_info
 
-#==============================================================================
+# ==============================================================================
 
 class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
 
