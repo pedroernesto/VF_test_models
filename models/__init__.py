@@ -4,7 +4,7 @@ from hbp_validation_framework.versioning import Versioned
 
 import json
 
-#==============================================================================
+# ==============================================================================
 
 class hippoCircuit(sciunit.Model, Versioned):
         instance_id = "f25d05b2-2358-418b-8914-fe02a412ac74"
@@ -22,9 +22,9 @@ class hippoCircuit(sciunit.Model, Versioned):
         def get_density_info(self):
             return self.density_info
     
-#==============================================================================
+# ==============================================================================
 
-#class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
+# class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
 class neuroM_loader(sciunit.Model, Versioned):
         instance_id = "3957bc1c-4a22-40ca-9ad6-879f75403219"
 
@@ -54,7 +54,7 @@ class neuroM_loader(sciunit.Model, Versioned):
         def get_soma_diameter_info(self):
             return self.soma_diameter
         
-#==============================================================================
+# ==============================================================================
 
 class NeuroM_MorphStats(sciunit.Model, Versioned):
     """A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"""
