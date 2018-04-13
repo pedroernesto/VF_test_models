@@ -56,16 +56,17 @@ class neuroM_loader(sciunit.Model, Versioned):
         
 # ==============================================================================
 
-class NeuroM_MorphStats(sciunit.Model, Versioned):
+class NeuroM_MorphStats(sciunit.Model):
     """A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"""
 
-    model_instance_uuid = "cba18d6d-a60c-491d-bc8f-09114d127aac"
+    model_instance_uuid = "421e6a79-80b1-4d2f-8c43-b2f37bfc1cfc"  # environment="prod"
+    # model_instance_uuid = "cba18d6d-a60c-491d-bc8f-09114d127aac"  # environment="dev"
 
     def __init__(self, name='NeuroM_MorphStats', model_path=None, config_path=None, pred_path=None, stats_file=None):
 
         sciunit.Model.__init__(self, name=name)
         self.description = "A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"
-        self.name = name
+        self.version = name
         self.morph_path = model_path
         self.config_path = config_path
         self.pred_path = pred_path
@@ -97,19 +98,12 @@ class NeuroM_MorphStats(sciunit.Model, Versioned):
         except IOError:
             print "Please specify the paths to the morphology directory and configuration file for morph_stats"
 
-        with open(self.output_path, 'r') as fp:
-            mod_prediction = json.load(fp)
+        # Saving the NeuroM output in a formatted json-file
+        fp = open(self.output_path, 'r+')
+        mod_prediction = json.load(fp)
+        fp.seek(0)
+        json.dump(mod_prediction, fp, sort_keys=True, indent=4)
         fp.close()
-
-        # Regrouping all soma's features-values pairs into a unique 'soma' key inside mood_prediction
-        for dict1 in mod_prediction.values():  # Set of cell's part-features dictionary pairs for each cell
-            soma_features = dict()
-            for key, val in dict1.items():
-                if key.find('soma') == -1:
-                    continue
-                soma_features.update({key: val})
-                del dict1[key]
-                dict1.update({"soma": soma_features})
 
         return mod_prediction
 
