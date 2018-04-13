@@ -1,0 +1,54 @@
+{
+    "./str-fs_excert/030225-5-PV-rep-cor.swc": {
+        "axon": {
+            "max_section_branch_order": 23, 
+            "mean_neurite_length": 45562.363309813554, 
+            "total_number_of_neurite": 1
+        }, 
+        "basal_dendrite": {
+            "max_section_branch_order": 4, 
+            "mean_neurite_length": 277.5662570292972, 
+            "total_number_of_neurite": 7
+        }, 
+        "total_soma_radius": 8.502
+    }, 
+    "./str-fs_excert/BE37A-rep-cor.swc": {
+        "axon": {
+            "max_section_branch_order": 17, 
+            "mean_neurite_length": 36504.05907956542, 
+            "total_number_of_neurite": 1
+        }, 
+        "basal_dendrite": {
+            "max_section_branch_order": 2, 
+            "mean_neurite_length": 262.6201140354738, 
+            "total_number_of_neurite": 5
+        }, 
+        "total_soma_radius": 10.6
+    }, 
+    "./str-fs_excert/BE43D-rep-cor.swc": {
+        "axon": {
+            "max_section_branch_order": 27, 
+            "mean_neurite_length": 15412.55261655291, 
+            "total_number_of_neurite": 1
+        }, 
+        "basal_dendrite": {
+            "max_section_branch_order": 4, 
+            "mean_neurite_length": 831.7883328673757, 
+            "total_number_of_neurite": 4
+        }, 
+        "total_soma_radius": 8.18366
+    }, 
+    "./str-fs_excert/BE45F-rep-cor.swc": {
+        "axon": {
+            "max_section_branch_order": 18, 
+            "mean_neurite_length": 39320.969456928346, 
+            "total_number_of_neurite": 1
+        }, 
+        "basal_dendrite": {
+            "max_section_branch_order": 4, 
+            "mean_neurite_length": 321.03152382022165, 
+            "total_number_of_neurite": 5
+        }, 
+        "total_soma_radius": 9.76916
+    }
+}
