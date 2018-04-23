@@ -1,12 +1,12 @@
-import os, sys
 import sciunit
-from hbp_validation_framework.versioning import Versioned
-
+import os
 import json
+
+from datetime import datetime
 
 # ==============================================================================
 
-class hippoCircuit(sciunit.Model, Versioned):
+class hippoCircuit(sciunit.Model):
         instance_id = "f25d05b2-2358-418b-8914-fe02a412ac74"
 
         def __init__(self, name="hippoCircuit", density_info={}):
@@ -25,7 +25,7 @@ class hippoCircuit(sciunit.Model, Versioned):
 # ==============================================================================
 
 # class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
-class neuroM_loader(sciunit.Model, Versioned):
+class neuroM_loader(sciunit.Model):
         instance_id = "3957bc1c-4a22-40ca-9ad6-879f75403219"
 
         def __init__(self, name="neuroM_loader", model_path=None, soma_diameter={}):
@@ -54,7 +54,6 @@ class neuroM_loader(sciunit.Model, Versioned):
         def get_soma_diameter_info(self):
             return self.soma_diameter
         
-# ==============================================================================
 
 class NeuroM_MorphStats(sciunit.Model):
     """A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"""
@@ -62,15 +61,22 @@ class NeuroM_MorphStats(sciunit.Model):
     model_instance_uuid = "421e6a79-80b1-4d2f-8c43-b2f37bfc1cfc"  # environment="prod"
     # model_instance_uuid = "cba18d6d-a60c-491d-bc8f-09114d127aac"  # environment="dev"
 
-    def __init__(self, name='NeuroM_MorphStats', model_path=None, config_path=None, pred_path=None, stats_file=None):
+    def __init__(self, model_name='NeuroM_MorphStats', morph_path=None,
+                 config_path=None, morph_stats_file=None, base_directory='.'):
 
-        sciunit.Model.__init__(self, name=name)
+        sciunit.Model.__init__(self, name=model_name)
         self.description = "A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"
-        self.version = name
-        self.morph_path = model_path
+        self.version = model_name
+
+        self.morph_path = morph_path
         self.config_path = config_path
-        self.pred_path = pred_path
-        self.output_path = os.path.join(pred_path, stats_file)
+
+        # Defining output directory
+        self.morph_stats_output = os.path.join(base_directory, 'validation_results', 'neuroM_morph_softChecks',
+                                             self.version, datetime.now().strftime("%Y%m%d-%H%M%S"))
+
+        self.output_file = os.path.join(self.morph_stats_output, morph_stats_file)
+
         self.morph_feature_info = self.set_morph_feature_info()
 
     def set_morph_feature_info(self):
@@ -93,13 +99,17 @@ class NeuroM_MorphStats(sciunit.Model):
         ... }
         """
 
+        # create output directory
+        if not os.path.exists(self.morph_stats_output):
+            os.makedirs(self.morph_stats_output)
+
         try:
-            os.system('morph_stats -C {} -o {} {}'.format(self.config_path, self.output_path, self.morph_path))
+            os.system('morph_stats -C {} -o {} {}'.format(self.config_path, self.output_file, self.morph_path))
         except IOError:
             print "Please specify the paths to the morphology directory and configuration file for morph_stats"
 
         # Saving NeuroM's morph_stats output in a formatted json-file
-        fp = open(self.output_path, 'r+')
+        fp = open(self.output_file, 'r+')
         mod_prediction = json.load(fp)
         fp.seek(0)
         json.dump(mod_prediction, fp, sort_keys=True, indent=4)
@@ -109,49 +119,3 @@ class NeuroM_MorphStats(sciunit.Model):
 
     def get_morph_feature_info(self):
         return self.morph_feature_info
-
-# ==============================================================================
-
-class CA1_laminar_distribution_synapses(sciunit.Model, Versioned):
-
-    model_instance_uuid = "d8f3333c-476d-4807-b433-c9fb68251514" # prod
-
-    def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
-
-        sciunit.Model.__init__(self, name=name)
-        self.name = name
-        self.description = "HBP Hippocampus CA1's output to test synapses distribution across CA1 layers"
-        self.CA1_laminar_distribution_synapses_info = CA1_laminar_distribution_synapses_info
-        self.set_CA1_laminar_distribution_synapses_info_default()
-
-    def set_CA1_laminar_distribution_synapses_info_default(self):
-        model_prediction_path = "./models/model_predictions/CA1_laminar_distribution_synapses_HBPmod.json"
-        with open(model_prediction_path, 'r') as fp:
-            data = json.load(fp)
-        self.CA1_laminar_distribution_synapses_info = data
-
-    def get_CA1_laminar_distribution_synapses_info(self):
-        return self.CA1_laminar_distribution_synapses_info
-
-# ==============================================================================
-
-class CA1Layers_NeuritePathDistance(sciunit.Model, Versioned):
-
-    # model_instance_uuid = 
-
-    def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
-        self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
-        sciunit.Model.__init__(self, name=name)
-        self.name = name
-        self.description = "Dummy model to test neurite path-distances across CA1 layers"
-        self.set_CA1LayersNeuritePathDistance_info_default()
-
-    def set_CA1LayersNeuritePathDistance_info_default(self):
-        self.CA1LayersNeuritePathDistance_info = {"SLM": {'PathDistance': {'value':'120 um'}},
-                                                  "SR": {'PathDistance': {'value':'280 um'}},
-                                                  "SP": {'PathDistance': {'value':'40 um'}},
-                                                  "SO": {'PathDistance': {'value':'100 um'}}
-                                                 }
-
-    def get_CA1LayersNeuritePathDistance_info(self):
-        return self.CA1LayersNeuritePathDistance_info
