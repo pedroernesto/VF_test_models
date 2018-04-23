@@ -54,12 +54,13 @@ class neuroM_loader(sciunit.Model):
         def get_soma_diameter_info(self):
             return self.soma_diameter
         
+# ==============================================================================
 
 class NeuroM_MorphStats(sciunit.Model):
     """A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"""
 
-    model_instance_uuid = "421e6a79-80b1-4d2f-8c43-b2f37bfc1cfc"  # environment="prod"
-    # model_instance_uuid = "cba18d6d-a60c-491d-bc8f-09114d127aac"  # environment="dev"
+    # model_instance_uuid = "421e6a79-80b1-4d2f-8c43-b2f37bfc1cfc"  # environment="prod"
+    model_instance_uuid = "cba18d6d-a60c-491d-bc8f-09114d127aac"  # environment="dev"
 
     def __init__(self, model_name='NeuroM_MorphStats', morph_path=None,
                  config_path=None, morph_stats_file=None, base_directory='.'):
@@ -111,6 +112,14 @@ class NeuroM_MorphStats(sciunit.Model):
         # Saving NeuroM's morph_stats output in a formatted json-file
         fp = open(self.output_file, 'r+')
         mod_prediction = json.load(fp)
+
+        # Correcting cell's ID, given by some neuroM versions:
+        # omitting enclosing directory's name  and file's extension
+        for key0, dict0 in mod_prediction.items():  # Dict. with cell's morph_path-features dict. pairs for each cell
+            cell_ID = (key0.split("/")[-1]).split(".")[0]
+            del mod_prediction[key0]
+            mod_prediction.update({cell_ID: dict0})
+
         fp.seek(0)
         json.dump(mod_prediction, fp, sort_keys=True, indent=4)
         fp.close()
@@ -119,3 +128,51 @@ class NeuroM_MorphStats(sciunit.Model):
 
     def get_morph_feature_info(self):
         return self.morph_feature_info
+
+# ==============================================================================
+
+class CA1Layers_NeuritePathDistance(sciunit.Model):
+
+    instance_id = "bb06ab0a-685c-4f0f-b078-195cd947639f"
+    # model_instance_uuid = # prod
+
+    def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
+        self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
+        sciunit.Model.__init__(self, name=name)
+        self.name = name
+        self.description = "Dummy model to test neurite path-distances across CA1 layers"
+        self.set_CA1LayersNeuritePathDistance_info_default()
+
+    def set_CA1LayersNeuritePathDistance_info_default(self):
+        self.CA1LayersNeuritePathDistance_info = {"SLM": {'PathDistance': {'value':'120 um'}},
+                                                  "SR": {'PathDistance': {'value':'280 um'}},
+                                                  "SP": {'PathDistance': {'value':'40 um'}},
+                                                  "SO": {'PathDistance': {'value':'100 um'}}
+                                                 }
+
+    def get_CA1LayersNeuritePathDistance_info(self):
+        return self.CA1LayersNeuritePathDistance_info
+
+# ==============================================================================
+
+class CA1_laminar_distribution_synapses(sciunit.Model):
+
+    # instance_id = "ede4c9ef-970b-4431-9f5b-cf0ca96c77e3" # dev
+    model_instance_uuid = "d8f3333c-476d-4807-b433-c9fb68251514" # prod
+
+    def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
+
+        sciunit.Model.__init__(self, name=name)
+        self.name = name
+        self.description = "HBP Hippocampus CA1's output to test synapses distribution across CA1 layers"
+        self.CA1_laminar_distribution_synapses_info = CA1_laminar_distribution_synapses_info
+        self.set_CA1_laminar_distribution_synapses_info_default()
+
+    def set_CA1_laminar_distribution_synapses_info_default(self):
+        model_prediction_path = "./models/model_predictions/CA1_laminar_distribution_synapses_HBPmod.json"
+        with open(model_prediction_path, 'r') as fp:
+            data = json.load(fp)
+        self.CA1_laminar_distribution_synapses_info = data
+
+    def get_CA1_laminar_distribution_synapses_info(self):
+        return self.CA1_laminar_distribution_synapses_info
