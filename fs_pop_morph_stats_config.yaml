@@ -1,0 +1,11 @@
+neurite:
+
+    neurite_lengths: [mean,std]
+    number_of_neurites: [mean,std]
+
+neurite_type:
+    - AXON
+    - BASAL_DENDRITE
+
+neuron:
+    soma_radii: [mean,std]

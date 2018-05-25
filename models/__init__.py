@@ -6,6 +6,7 @@ from datetime import datetime
 
 # ==============================================================================
 
+
 class hippoCircuit(sciunit.Model):
         instance_id = "f25d05b2-2358-418b-8914-fe02a412ac74"
 
@@ -55,6 +56,7 @@ class neuroM_loader(sciunit.Model):
             return self.soma_diameter
         
 # ==============================================================================
+
 
 class NeuroM_MorphStats(sciunit.Model):
     """A class to interact with morphology files via the morphometrics-NeuroM's API (morph_stats)"""
@@ -109,27 +111,27 @@ class NeuroM_MorphStats(sciunit.Model):
         except IOError:
             print "Please specify the paths to the morphology directory and configuration file for morph_stats"
 
-        # Saving NeuroM's morph_stats output in a formatted json-file
-        fp = open(self.output_file, 'r+')
-        mod_prediction = json.load(fp)
-
         # Correcting cell's ID, given by some neuroM versions:
         # omitting enclosing directory's name  and file's extension
+        with open(self.output_file, 'r') as fp:
+            mod_prediction = json.load(fp)
         for key0, dict0 in mod_prediction.items():  # Dict. with cell's morph_path-features dict. pairs for each cell
             cell_ID = (key0.split("/")[-1]).split(".")[0]
             del mod_prediction[key0]
             mod_prediction.update({cell_ID: dict0})
 
-        fp.seek(0)
-        json.dump(mod_prediction, fp, sort_keys=True, indent=4)
-        fp.close()
+        # Saving NeuroM's morph_stats output in a formatted json-file
+        with open(self.output_file, 'w') as fp:
+            json.dump(mod_prediction, fp, sort_keys=True, indent=4)
 
         return mod_prediction
 
     def get_morph_feature_info(self):
         return self.morph_feature_info
 
+
 # ==============================================================================
+
 
 class CA1Layers_NeuritePathDistance(sciunit.Model):
 
