@@ -1,8 +1,0 @@
-neurite:
-
-    section_branch_orders: [max]
-
-neurite_type:
-    - AXON
-    - BASAL_DENDRITE
-
