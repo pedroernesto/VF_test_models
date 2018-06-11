@@ -127,5 +127,3 @@ class NeuroM_MorphStats(sciunit.Model):
     def get_morph_feature_info(self):
         return self.morph_feature_info
 
-
-
