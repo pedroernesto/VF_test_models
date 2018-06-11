@@ -8,7 +8,6 @@ from datetime import datetime
 
 
 class hippoCircuit(sciunit.Model):
-        instance_id = "f25d05b2-2358-418b-8914-fe02a412ac74"
 
         def __init__(self, name="hippoCircuit", density_info={}):
             self.density_info = density_info
@@ -27,7 +26,6 @@ class hippoCircuit(sciunit.Model):
 
 # class neuroM_loader(sciunit.Model, cap.HandlesNeuroM, Versioned):
 class neuroM_loader(sciunit.Model):
-        instance_id = "3957bc1c-4a22-40ca-9ad6-879f75403219"
 
         def __init__(self, name="neuroM_loader", model_path=None, soma_diameter={}):
             self.soma_diameter = soma_diameter
@@ -130,51 +128,4 @@ class NeuroM_MorphStats(sciunit.Model):
         return self.morph_feature_info
 
 
-# ==============================================================================
 
-
-class CA1Layers_NeuritePathDistance(sciunit.Model):
-
-    instance_id = "bb06ab0a-685c-4f0f-b078-195cd947639f"
-    # model_instance_uuid = # prod
-
-    def __init__(self, name='CA1Layers_NeuritePathDistance', CA1LayersNeuritePathDistance_info={}):
-        self.CA1LayersNeuritePathDistance_info = CA1LayersNeuritePathDistance_info
-        sciunit.Model.__init__(self, name=name)
-        self.name = name
-        self.description = "Dummy model to test neurite path-distances across CA1 layers"
-        self.set_CA1LayersNeuritePathDistance_info_default()
-
-    def set_CA1LayersNeuritePathDistance_info_default(self):
-        self.CA1LayersNeuritePathDistance_info = {"SLM": {'PathDistance': {'value':'120 um'}},
-                                                  "SR": {'PathDistance': {'value':'280 um'}},
-                                                  "SP": {'PathDistance': {'value':'40 um'}},
-                                                  "SO": {'PathDistance': {'value':'100 um'}}
-                                                 }
-
-    def get_CA1LayersNeuritePathDistance_info(self):
-        return self.CA1LayersNeuritePathDistance_info
-
-# ==============================================================================
-
-class CA1_laminar_distribution_synapses(sciunit.Model):
-
-    # instance_id = "ede4c9ef-970b-4431-9f5b-cf0ca96c77e3" # dev
-    model_instance_uuid = "d8f3333c-476d-4807-b433-c9fb68251514" # prod
-
-    def __init__(self, name="CA1_laminar_distribution_synapses", CA1_laminar_distribution_synapses_info={}):
-
-        sciunit.Model.__init__(self, name=name)
-        self.name = name
-        self.description = "HBP Hippocampus CA1's output to test synapses distribution across CA1 layers"
-        self.CA1_laminar_distribution_synapses_info = CA1_laminar_distribution_synapses_info
-        self.set_CA1_laminar_distribution_synapses_info_default()
-
-    def set_CA1_laminar_distribution_synapses_info_default(self):
-        model_prediction_path = "./models/model_predictions/CA1_laminar_distribution_synapses_HBPmod.json"
-        with open(model_prediction_path, 'r') as fp:
-            data = json.load(fp)
-        self.CA1_laminar_distribution_synapses_info = data
-
-    def get_CA1_laminar_distribution_synapses_info(self):
-        return self.CA1_laminar_distribution_synapses_info
