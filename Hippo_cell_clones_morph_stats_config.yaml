@@ -1,0 +1,8 @@
+neurite:
+
+    neurite_lengths: [total]
+
+neurite_type:
+    - AXON
+    - BASAL_DENDRITE
+
